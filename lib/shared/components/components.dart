@@ -158,3 +158,66 @@ Widget taskCard(
         ),
       ),
     );
+
+
+Widget buildArticleItem(article)=> Padding(
+  padding: const EdgeInsets.all(20.0),
+  child: Row(
+    children: [
+      Container(
+        width: 120,
+        height: 120,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          image:  DecorationImage(fit: BoxFit.cover,
+              image: NetworkImage( "${article['urlToImage']}"),
+        ),
+      ),
+      ),
+      const SizedBox(width: 20.0,),
+      Expanded(
+        child: Container(
+          height: 120,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children:  [
+              Expanded(
+                child: Text(article['title'] ,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600
+                  ),),
+              ),
+              Text(article['publishedAt'],style:const TextStyle(
+                  color:Colors.grey
+              ),),
+
+            ],),
+        ),
+      )
+    ],
+  ),
+);
+
+
+Widget articleBuilder(list)=>ConditionalBuilder(
+    condition:list.length >0,
+    builder: (context){
+
+
+      return ListView.separated(
+
+          physics: const BouncingScrollPhysics(),
+          itemBuilder: (context,index)=>buildArticleItem(list[index]),
+          separatorBuilder: (context,index){
+            return Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(color: Colors.grey,height: 1,),
+            );
+          },
+          itemCount: list.length);
+    },
+    fallback: (context)=>const Center(child: CircularProgressIndicator(),));
