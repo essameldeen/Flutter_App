@@ -42,7 +42,8 @@ dependencies:
   flutter_bloc: ^8.1.2
   dio: ^5.0.0
   hexcolor: ^3.0.1
-  shared_preferences: ^2.0.18 
+  shared_preferences: ^2.0.18
+  webview_flutter: ^3.0.0
 
 
 dev_dependencies:
