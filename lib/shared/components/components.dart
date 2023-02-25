@@ -31,6 +31,7 @@ Widget defaultFormField(
         required IconData prefixIcon,
         required TextInputType textInputType,
         Function()? onEyeClick,
+        Function(String)? onChange,
         Function()? onTap,
         bool isEnable = true}) =>
     TextFormField(
@@ -40,6 +41,7 @@ Widget defaultFormField(
       controller: controller,
       keyboardType: textInputType,
       obscureText: isPassword,
+      onChanged: onChange,
       decoration: InputDecoration(
           hintText: hint,
           labelText: label,
@@ -52,49 +54,55 @@ Widget defaultFormField(
     );
 
 Widget emptyScreen() => Center(
-  child:   Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: const [
-          Icon(Icons.menu,size: 70,color: Colors.grey,),
-          Text("No Task  Yet , Pleas Add Some Tasks",style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
+          Icon(
+            Icons.menu,
+            size: 70,
             color: Colors.grey,
-
-          ),)
+          ),
+          Text(
+            "No Task  Yet , Pleas Add Some Tasks",
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
+          )
         ],
       ),
-);
+    );
 
-
-ConditionalBuilder taskBuilder({required List<Map> tasks}) =>ConditionalBuilder(
-  condition:tasks.isNotEmpty,
-  fallback: (context){
-    return emptyScreen( );
-  },
-  builder: (context)=> ListView.separated(
-      itemBuilder: (context, index) => taskCard(
-          context,
-          tasks[index]['id'],
-          tasks[index]["title"],
-          tasks[index]["time"], tasks[index]["date"], () {
-        AppCubit.get(context).updateDataInDB(
-            id: tasks[index]['id'], newStatus: 'archived');
-      }, () {
-        AppCubit.get(context).updateDataInDB(
-            id: tasks[index]['id'], newStatus: 'done');
-      }),
-      separatorBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Container(
-          height: 1.0,
-          color: Colors.grey,
-        ),
-      ),
-      itemCount: tasks.length),
-
-);
+ConditionalBuilder taskBuilder({required List<Map> tasks}) =>
+    ConditionalBuilder(
+      condition: tasks.isNotEmpty,
+      fallback: (context) {
+        return emptyScreen();
+      },
+      builder: (context) => ListView.separated(
+          itemBuilder: (context, index) => taskCard(
+                  context,
+                  tasks[index]['id'],
+                  tasks[index]["title"],
+                  tasks[index]["time"],
+                  tasks[index]["date"], () {
+                AppCubit.get(context).updateDataInDB(
+                    id: tasks[index]['id'], newStatus: 'archived');
+              }, () {
+                AppCubit.get(context)
+                    .updateDataInDB(id: tasks[index]['id'], newStatus: 'done');
+              }),
+          separatorBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Container(
+                  height: 1.0,
+                  color: Colors.grey,
+                ),
+              ),
+          itemCount: tasks.length),
+    );
 
 Widget taskCard(
   BuildContext context,
@@ -159,63 +167,72 @@ Widget taskCard(
       ),
     );
 
-
-Widget buildArticleItem(context,article)=> Padding(
-  padding: const EdgeInsets.all(20.0),
-  child: Row(
-    children: [
-      Container(
-        width: 120,
-        height: 120,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          image:  DecorationImage(fit: BoxFit.cover,
-              image: NetworkImage( "${article['urlToImage']}"),
-        ),
-      ),
-      ),
-      const SizedBox(width: 20.0,),
-      Expanded(
-        child: Container(
-          height: 120,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children:  [
-              Expanded(
-                child: Text(article['title'] ,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyText1
-                ),
+Widget buildArticleItem(context, article) => Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: [
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage("${article['urlToImage']}"),
               ),
-              Text(article['publishedAt'],style:const TextStyle(
-                  color:Colors.grey
-              ),),
+            ),
+          ),
+          const SizedBox(
+            width: 20.0,
+          ),
+          Expanded(
+            child: Container(
+              height: 120,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(article['title'],
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyText1),
+                  ),
+                  Text(
+                    article['publishedAt'],
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
 
-            ],),
-        ),
-      )
-    ],
-  ),
-);
-
-
-Widget articleBuilder(list)=>ConditionalBuilder(
-    condition:list.length >0,
-    builder: (context){
-
-
+Widget articleBuilder(list) => ConditionalBuilder(
+    condition: list.length > 0,
+    builder: (context) {
       return ListView.separated(
-
           physics: const BouncingScrollPhysics(),
-          itemBuilder: (context,index)=>buildArticleItem(context,list[index]),
-          separatorBuilder: (context,index){
+          itemBuilder: (context, index) =>
+              buildArticleItem(context, list[index]),
+          separatorBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(10),
-              child: Container(color: Colors.grey,height: 1,),
+              child: Container(
+                color: Colors.grey,
+                height: 1,
+              ),
             );
           },
           itemCount: list.length);
     },
-    fallback: (context)=>const Center(child: CircularProgressIndicator(),));
+    fallback: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ));
+
+void navigateTo(context, screen) => Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => screen),
+    );

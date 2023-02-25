@@ -30,3 +30,10 @@ class NewGetScienceErrorState extends NewsState {
 
   NewGetScienceErrorState(this.error);
 }
+
+class NewGetSearchSuccessState extends NewsState {}
+class NewGetSearchErrorState extends NewsState {
+  final String error;
+
+  NewGetSearchErrorState(this.error);
+}

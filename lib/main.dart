@@ -9,8 +9,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized(); // to ensure that all function finished before running
+import 'layout/news_app/cubit/cubit.dart';
+
+void main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); // to ensure that all function finished before running
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
   DioHelper.init();
@@ -20,13 +23,21 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-   final bool? isDark;
-   MyApp(this.isDark);
+  final bool? isDark;
+
+  MyApp(this.isDark);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppCubit()..changeThemeMode(isDarkFromSharedPref: isDark),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => NewsCubit()..getBusinessData(),
+        ),
+        BlocProvider(
+            create: (context) =>
+                AppCubit()..changeThemeMode(isDarkFromSharedPref: isDark))
+      ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) => MaterialApp(
