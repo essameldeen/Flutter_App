@@ -1,7 +1,6 @@
 import 'package:app_test/layout/news_app/cubit/states.dart';
 import 'package:app_test/modules/business/business_screen.dart';
 import 'package:app_test/modules/science/science_screen.dart';
-import 'package:app_test/modules/settings_screen/settings_screen.dart';
 import 'package:app_test/modules/sports/sports_screen.dart';
 import 'package:app_test/shared/components/constants.dart';
 import 'package:flutter/material.dart';
@@ -21,22 +20,19 @@ class NewsCubit extends Cubit<NewsState> {
     const BottomNavigationBarItem(
         icon: Icon(Icons.sports_soccer), label: "Sports"),
     const BottomNavigationBarItem(icon: Icon(Icons.science), label: "Science"),
-    const BottomNavigationBarItem(
-        icon: Icon(Icons.settings), label: "Settings"),
   ];
   List<Widget> news_screen = [
     BusinessScreen(),
     SportsScreen(),
     ScienceScreen(),
-    SettingsScreen()
   ];
 
   void changeBottomNavBar(int newIndex) {
     currentIndex = newIndex;
-    if(currentIndex==1){
+    if (currentIndex == 1) {
       getSportsData();
     }
-    if(currentIndex==2){
+    if (currentIndex == 2) {
       getScienceData();
     }
     emit(NewsBottomNavState());
@@ -45,9 +41,8 @@ class NewsCubit extends Cubit<NewsState> {
   List<dynamic> business = [];
 
   void getBusinessData() {
-
     emit(NewShowLoadingState());
-    if(business.length==0){
+    if (business.length == 0) {
       DioHelper.getData(url: GET_DATA, query: {
         'country': COUNTRY,
         'category': BUSINESS_CATEGORY,
@@ -60,17 +55,16 @@ class NewsCubit extends Cubit<NewsState> {
         print(error.toString());
         emit(NewGetBusinessErrorState(error.toString()));
       });
-    }else{
+    } else {
       emit(NewGetBusinessSuccessState());
     }
-
   }
 
   List<dynamic> sports = [];
 
   void getSportsData() {
     emit(NewShowLoadingState());
-    if(sports.length ==0){
+    if (sports.length == 0) {
       DioHelper.getData(url: GET_DATA, query: {
         'country': COUNTRY,
         'category': SPORTS_CATEGORY,
@@ -83,17 +77,16 @@ class NewsCubit extends Cubit<NewsState> {
         print(error.toString());
         emit(NewGetSportsErrorState(error.toString()));
       });
-    }else{
+    } else {
       emit(NewGetSportsSuccessState());
     }
-
-
   }
+
   List<dynamic> science = [];
 
   void getScienceData() {
     emit(NewShowLoadingState());
-    if(science.length==0){
+    if (science.length == 0) {
       DioHelper.getData(url: GET_DATA, query: {
         'country': COUNTRY,
         'category': 'science',
@@ -106,9 +99,10 @@ class NewsCubit extends Cubit<NewsState> {
         print(error.toString());
         emit(NewGetScienceErrorState(error.toString()));
       });
-    }else{
+    } else {
       emit(NewGetScienceSuccessState());
     }
-
   }
+
+
 }

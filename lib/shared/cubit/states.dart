@@ -13,4 +13,7 @@ class AppChangeBottomSheetState extends AppStates{}
 class AppShowProgressBarState extends AppStates{}
 class AppHideProgressBarState extends AppStates{}
 
+class AppChangeThemeModeState extends AppStates{}
+
+
 

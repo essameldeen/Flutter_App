@@ -160,7 +160,7 @@ Widget taskCard(
     );
 
 
-Widget buildArticleItem(article)=> Padding(
+Widget buildArticleItem(context,article)=> Padding(
   padding: const EdgeInsets.all(20.0),
   child: Row(
     children: [
@@ -186,10 +186,8 @@ Widget buildArticleItem(article)=> Padding(
                 child: Text(article['title'] ,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600
-                  ),),
+                  style: Theme.of(context).textTheme.bodyText1
+                ),
               ),
               Text(article['publishedAt'],style:const TextStyle(
                   color:Colors.grey
@@ -211,7 +209,7 @@ Widget articleBuilder(list)=>ConditionalBuilder(
       return ListView.separated(
 
           physics: const BouncingScrollPhysics(),
-          itemBuilder: (context,index)=>buildArticleItem(list[index]),
+          itemBuilder: (context,index)=>buildArticleItem(context,list[index]),
           separatorBuilder: (context,index){
             return Padding(
               padding: const EdgeInsets.all(10),

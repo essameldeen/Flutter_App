@@ -1,6 +1,7 @@
 import 'package:app_test/modules/archived_task/archived_task_screen.dart';
 import 'package:app_test/modules/done_tasks/done_tasks_screen.dart';
 import 'package:app_test/shared/cubit/states.dart';
+import 'package:app_test/shared/network/local%20/cach_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
@@ -104,5 +105,32 @@ class AppCubit extends Cubit<AppStates> {
       }
       emit(AppGetDatabaseState());
     });
+  }
+
+
+  ThemeMode appMode = ThemeMode.dark;
+
+  void changeThemeMode({bool? isDarkFromSharedPref}) {
+
+    if(isDarkFromSharedPref!=null){
+       if(isDarkFromSharedPref){
+         appMode=ThemeMode.dark;
+       }else{
+         appMode=ThemeMode.light;
+       }
+       emit(AppChangeThemeModeState());
+    }else{
+      if (appMode == ThemeMode.dark) {
+        appMode = ThemeMode.light;
+        CacheHelper.putDataBoolean(key: "isDark", isDark: false);
+      } else {
+        appMode = ThemeMode.dark;
+        CacheHelper.putDataBoolean(key: "isDark", isDark: true);
+      }
+      emit(AppChangeThemeModeState());
+    }
+
+
+
   }
 }
