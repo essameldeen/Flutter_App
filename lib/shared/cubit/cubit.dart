@@ -1,12 +1,15 @@
-import 'package:app_test/modules/archived_task/archived_task_screen.dart';
-import 'package:app_test/modules/done_tasks/done_tasks_screen.dart';
+
 import 'package:app_test/shared/cubit/states.dart';
 import 'package:app_test/shared/network/local%20/cach_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../modules/ tasks/new_task_screen.dart';
+import '../../modules/todo_app/ tasks/new_task_screen.dart';
+import '../../modules/todo_app/archived_task/archived_task_screen.dart';
+import '../../modules/todo_app/done_tasks/done_tasks_screen.dart';
+
+
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());

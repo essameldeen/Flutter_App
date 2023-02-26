@@ -1,7 +1,9 @@
-import 'package:app_test/modules/web_view/webView_screen.dart';
 import 'package:app_test/shared/cubit/cubit.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+
+import '../../modules/news_app/web_view/webView_screen.dart';
+
 
 Widget defaultButton(
         {double width = double.infinity,
@@ -240,3 +242,5 @@ void navigateTo(context, screen) => Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => screen),
     );
+
+void navigateToAndFinish(context, screen) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => screen),(route){return false;});

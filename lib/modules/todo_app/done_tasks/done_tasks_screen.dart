@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../shared/components/components.dart';
-import '../../shared/cubit/cubit.dart';
-import '../../shared/cubit/states.dart';
+import '../../../shared/components/components.dart';
+import '../../../shared/cubit/cubit.dart';
+import '../../../shared/cubit/states.dart';
+
 
 class DoneTasksScreen extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class DoneTasksScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           var tasks = AppCubit.get(context).doneTasks;
-          return   taskBuilder(tasks: tasks);
+          return taskBuilder(tasks: tasks);
         });
   }
 }
