@@ -1,4 +1,4 @@
-import 'package:app_test/modules/basic_app/login/login_screen.dart';
+
 import 'package:app_test/modules/shop_app/login/login_screen.dart';
 import 'package:app_test/shared/components/components.dart';
 import 'package:flutter/material.dart';
@@ -36,9 +36,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          TextButton(onPressed: (){
+          defaultTextButton(title: "SKIP", onPressed: (){
             navigateToAndFinish(context, ShopLoginScreen());
-          }, child: const Text("SKIP"))
+          }),
         ],
       ),
       body: Padding(

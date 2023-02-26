@@ -36,9 +36,12 @@ Widget defaultFormField(
         Function()? onEyeClick,
         Function(String)? onChange,
         Function()? onTap,
+          Function(String)? onSubmit,
+          IconData? suffixIcon,
         bool isEnable = true}) =>
     TextFormField(
       onTap: onTap,
+      onFieldSubmitted: onSubmit,
       enabled: isEnable,
       validator: validator,
       controller: controller,
@@ -51,7 +54,7 @@ Widget defaultFormField(
           prefixIcon: Icon(prefixIcon),
           suffixIcon: showLock
               ? IconButton(
-                  onPressed: onEyeClick, icon: const Icon(Icons.remove_red_eye))
+                  onPressed: onEyeClick, icon:  Icon(suffixIcon))
               : null,
           border: const OutlineInputBorder()),
     );
@@ -244,3 +247,7 @@ void navigateTo(context, screen) => Navigator.push(
     );
 
 void navigateToAndFinish(context, screen) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => screen),(route){return false;});
+
+
+Widget defaultTextButton({required String  title , required Function()? onPressed}) =>
+    TextButton(onPressed: onPressed, child: Text(title.toUpperCase()));
