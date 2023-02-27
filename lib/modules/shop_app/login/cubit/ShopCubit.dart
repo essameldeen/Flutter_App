@@ -1,3 +1,4 @@
+import 'package:app_test/model/shop/login_model.dart';
 import 'package:app_test/modules/shop_app/login/cubit/shope_login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,12 +11,14 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
 
   static ShopLoginCubit get(context) => BlocProvider.of(context);
 
+  ShopLoginModel? loginModel;
+
   void login({required String email, required String password}) {
     emit(ShopLoginLoadingState());
     DioHelper.postData(url: LOGIN, data: {'email': email, 'password': password})
         .then((value) {
-      print(value);
-      emit(ShopLoginSuccessState());
+      loginModel = ShopLoginModel.fromJson(value?.data);
+      emit(ShopLoginSuccessState(loginModel));
     }).catchError((error) {
       print(error.toString());
       emit(ShopLoginErrorState(error.toString()));

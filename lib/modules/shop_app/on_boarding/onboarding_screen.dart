@@ -1,6 +1,7 @@
 
 import 'package:app_test/modules/shop_app/login/login_screen.dart';
 import 'package:app_test/shared/components/components.dart';
+import 'package:app_test/shared/network/local%20/cach_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -37,7 +38,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       appBar: AppBar(
         actions: [
           defaultTextButton(title: "SKIP", onPressed: (){
-            navigateToAndFinish(context, ShopLoginScreen());
+            submit();
           }),
         ],
       ),
@@ -84,7 +85,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     child: const Icon(Icons.arrow_circle_right),
                     onPressed: () {
                       if (isLastScreen) {
-                        navigateToAndFinish(context, ShopLoginScreen());
+                        submit();
                       } else {
                         pageController.nextPage(
                             duration: const Duration(milliseconds: 750),
@@ -120,4 +121,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           ),
         ],
       );
+
+  void submit(){
+     CacheHelper.saveData(key: "onBoarding", value: true).then((value){
+       if(value==true){
+         navigateToAndFinish(context, ShopLoginScreen());
+       }
+     });
+  }
 }

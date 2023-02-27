@@ -1,7 +1,9 @@
+import 'package:app_test/layout/shop_app/shop_layout.dart';
 import 'package:app_test/modules/shop_app/login/cubit/ShopCubit.dart';
 import 'package:app_test/modules/shop_app/login/cubit/shope_login_state.dart';
 import 'package:app_test/modules/shop_app/register/register_screen.dart';
 import 'package:app_test/shared/components/components.dart';
+import 'package:app_test/shared/network/local%20/cach_helper.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +18,22 @@ class ShopLoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext buildContext) => ShopLoginCubit(),
       child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is ShopLoginSuccessState) {
+            if (state.loginModel?.status == true) {
+              if(state.loginModel?.data?.token!=null){
+                CacheHelper.saveData(key: "token", value: state.loginModel?.data?.token).then((value){
+                  showToast(state.loginModel?.message,ToastStates.SUCCESS);
+                  navigateToAndFinish(context, ShopLayout());
+                });
+
+              }
+
+            } else {
+              showToast(state.loginModel?.message,ToastStates.ERROR);
+            }
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(),
@@ -63,8 +80,9 @@ class ShopLoginScreen extends StatelessWidget {
                               ShopLoginCubit.get(context)
                                   .changePasswordVisibility();
                             },
-                            showLock:true,
-                            isPassword: ShopLoginCubit.get(context).isPasswordShow,
+                            showLock: true,
+                            isPassword:
+                                ShopLoginCubit.get(context).isPasswordShow,
                             controller: passwordController,
                             hint: "Enter your Password",
                             label: "Password",

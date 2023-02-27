@@ -1,4 +1,6 @@
 import 'package:app_test/layout/news_app/news_layout.dart';
+import 'package:app_test/layout/shop_app/shop_layout.dart';
+import 'package:app_test/modules/shop_app/login/login_screen.dart';
 import 'package:app_test/modules/shop_app/on_boarding/onboarding_screen.dart';
 import 'package:app_test/shared/block_0bserver.dart';
 import 'package:app_test/shared/cubit/cubit.dart';
@@ -18,14 +20,27 @@ void main() async {
   await CacheHelper.init();
   DioHelper.init();
 
+  Widget? screen;
   bool? isDark = CacheHelper.getData("isDark");
-  runApp(MyApp(isDark));
+  bool? onBoarding = CacheHelper.getData("onBoarding");
+  String? token = CacheHelper.getData("token");
+  if(token!=null && onBoarding !=null){
+    screen = ShopLayout();
+  }else if (onBoarding == true){
+    screen = ShopLoginScreen();
+  }else{
+    screen = OnBoardingScreen();
+  }
+
+
+  runApp(MyApp(isDark,screen));
 }
 
 class MyApp extends StatelessWidget {
   final bool? isDark;
+  final Widget? screen;
 
-  MyApp(this.isDark);
+  MyApp(this.isDark,this.screen);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +60,7 @@ class MyApp extends StatelessWidget {
           theme: lightTheme,
           darkTheme: darkTheme,
           debugShowCheckedModeBanner: false,
-          home: OnBoardingScreen(),
+          home: screen,
         ),
       ),
     );

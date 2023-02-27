@@ -1,9 +1,10 @@
 import 'package:app_test/shared/cubit/cubit.dart';
+import 'package:app_test/shared/styles/colors.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../modules/news_app/web_view/webView_screen.dart';
-
 
 Widget defaultButton(
         {double width = double.infinity,
@@ -36,8 +37,8 @@ Widget defaultFormField(
         Function()? onEyeClick,
         Function(String)? onChange,
         Function()? onTap,
-          Function(String)? onSubmit,
-          IconData? suffixIcon,
+        Function(String)? onSubmit,
+        IconData? suffixIcon,
         bool isEnable = true}) =>
     TextFormField(
       onTap: onTap,
@@ -53,8 +54,7 @@ Widget defaultFormField(
           labelText: label,
           prefixIcon: Icon(prefixIcon),
           suffixIcon: showLock
-              ? IconButton(
-                  onPressed: onEyeClick, icon:  Icon(suffixIcon))
+              ? IconButton(onPressed: onEyeClick, icon: Icon(suffixIcon))
               : null,
           border: const OutlineInputBorder()),
     );
@@ -174,10 +174,10 @@ Widget taskCard(
     );
 
 Widget buildArticleItem(context, article) => InkWell(
-  onTap: (){
-    navigateTo(context, WebViewScreen(article['url']));
-  },
-  child:   Padding(
+      onTap: () {
+        navigateTo(context, WebViewScreen(article['url']));
+      },
+      child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
           children: [
@@ -219,9 +219,9 @@ Widget buildArticleItem(context, article) => InkWell(
           ],
         ),
       ),
-);
+    );
 
-Widget articleBuilder(list,{bool isSearch=false}) => ConditionalBuilder(
+Widget articleBuilder(list, {bool isSearch = false}) => ConditionalBuilder(
     condition: list.length > 0,
     builder: (context) {
       return ListView.separated(
@@ -239,15 +239,51 @@ Widget articleBuilder(list,{bool isSearch=false}) => ConditionalBuilder(
           },
           itemCount: list.length);
     },
-    fallback: (context) => isSearch ? Container(): const Center(child: CircularProgressIndicator(),));
+    fallback: (context) => isSearch
+        ? Container()
+        : const Center(
+            child: CircularProgressIndicator(),
+          ));
 
 void navigateTo(context, screen) => Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => screen),
     );
 
-void navigateToAndFinish(context, screen) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => screen),(route){return false;});
+void navigateToAndFinish(context, screen) => Navigator.pushAndRemoveUntil(
+        context, MaterialPageRoute(builder: (context) => screen), (route) {
+      return false;
+    });
 
-
-Widget defaultTextButton({required String  title , required Function()? onPressed}) =>
+Widget defaultTextButton(
+        {required String title, required Function()? onPressed}) =>
     TextButton(onPressed: onPressed, child: Text(title.toUpperCase()));
+
+void showToast( message, ToastStates state) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 5,
+      backgroundColor: chooseToastColor(state),
+      textColor: Colors.white,
+      fontSize: 16.0);
+}
+
+enum ToastStates{SUCCESS,ERROR,WARINING}
+
+Color chooseToastColor(ToastStates state){
+  Color  color;
+  switch(state){
+    case ToastStates.SUCCESS:
+       color = Colors.green;
+      break;
+    case ToastStates.ERROR:
+      color = Colors.red;
+      break;
+    case ToastStates.WARINING:
+      color =  Colors.amber;
+      break;
+  }
+  return color;
+}

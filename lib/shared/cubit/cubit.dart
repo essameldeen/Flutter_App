@@ -125,10 +125,10 @@ class AppCubit extends Cubit<AppStates> {
     }else{
       if (appMode == ThemeMode.dark) {
         appMode = ThemeMode.light;
-        CacheHelper.putDataBoolean(key: "isDark", isDark: false);
+        CacheHelper.saveData(key: "isDark", value: false);
       } else {
         appMode = ThemeMode.dark;
-        CacheHelper.putDataBoolean(key: "isDark", isDark: true);
+        CacheHelper.saveData(key: "isDark", value: true);
       }
       emit(AppChangeThemeModeState());
     }
