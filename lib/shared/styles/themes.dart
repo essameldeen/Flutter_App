@@ -31,16 +31,15 @@ ThemeData lightTheme = ThemeData(
   appBarTheme: const AppBarTheme(
       titleSpacing: 20.0,
       iconTheme: const IconThemeData(color: Colors.white),
-      titleTextStyle:  TextStyle(
+      titleTextStyle: TextStyle(
           color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
-      color:Colors.white,
+      color: Colors.white,
       elevation: 0.0,
       backwardsCompatibility: false,
-      systemOverlayStyle:  SystemUiOverlayStyle(
-          statusBarBrightness: Brightness.light,
-          statusBarColor: Colors.white)),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: HexColor('333739'),
+      systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.light, statusBarColor: Colors.white)),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: Colors.white,
       type: BottomNavigationBarType.fixed,
       unselectedItemColor: Colors.grey,
       selectedItemColor: defaultColor,

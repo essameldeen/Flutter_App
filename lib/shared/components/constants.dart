@@ -10,7 +10,7 @@ const String SPORTS_CATEGORY="sports";
 const String SCIENCE_CATEGORY="science";
 const String COUNTRY="eg";
 
-String  token="";
+String?  token="";
 
 void signOut(context){
   CacheHelper.clearData("token").then((value) {
