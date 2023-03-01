@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../modules/shop_app/search/search_screen.dart';
-import '../../shared/components/constants.dart';
 
 class ShopLayout extends StatelessWidget {
   @override
@@ -16,7 +15,7 @@ class ShopLayout extends StatelessWidget {
           var cubit = ShopCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              title: Text(
+              title: const Text(
                 "Shop App",
                 style: TextStyle(color: Colors.black),
               ),
