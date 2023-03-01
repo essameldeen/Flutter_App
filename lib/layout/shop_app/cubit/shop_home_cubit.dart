@@ -1,4 +1,5 @@
 import 'package:app_test/layout/shop_app/cubit/states.dart';
+import 'package:app_test/model/shop/categories_model.dart';
 import 'package:app_test/model/shop/home_model.dart';
 import 'package:app_test/modules/shop_app/cateogries/category_screen.dart';
 import 'package:app_test/modules/shop_app/favourites/favourites_screen.dart';
@@ -41,6 +42,21 @@ class ShopCubit extends Cubit<ShopHomeStates> {
     }).catchError((error) {
       print(error.toString());
       emit(ShopHomeErrorState(error.toString()));
+    });
+  }
+
+  CategoriesModel?  categoriesHomeModel;
+
+  void getHomeCategoriesData() {
+    emit(ShopHomeCategorySuccessState());
+
+    DioHelper.getData(url: HOME_CATEGORIES, token: token).then((value) {
+      emit(ShopHomeSuccessState());
+      categoriesHomeModel = CategoriesModel .fromJson(value?.data);
+      print(categoriesHomeModel);
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopHomeCategoryErrorState(error.toString()));
     });
   }
 }

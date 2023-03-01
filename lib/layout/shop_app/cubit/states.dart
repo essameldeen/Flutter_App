@@ -9,3 +9,10 @@ class ShopHomeErrorState extends ShopHomeStates{
   final String error;
   ShopHomeErrorState(this.error);
 }
+
+class ShopHomeCategorySuccessState extends ShopHomeStates{}
+class ShopHomeCategoryErrorState extends ShopHomeStates {
+  final String error;
+
+  ShopHomeCategoryErrorState(this.error);
+}
