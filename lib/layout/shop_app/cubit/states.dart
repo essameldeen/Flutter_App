@@ -69,3 +69,16 @@ class ShopHomeLogOutErrorState extends ShopHomeStates {
 
   ShopHomeLogOutErrorState(this.error);
 }
+
+class ShopHomeUpdateUserDataLoadingState extends ShopHomeStates {}
+
+class ShopHomeUpdateUserSuccessState extends ShopHomeStates {
+  final ShopLoginModel? loginModel;
+  ShopHomeUpdateUserSuccessState(this.loginModel);
+}
+
+class ShopHomeUpdateUserErrorState extends ShopHomeStates {
+  final String? error;
+
+  ShopHomeUpdateUserErrorState(this.error);
+}

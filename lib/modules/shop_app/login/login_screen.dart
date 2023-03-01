@@ -121,7 +121,7 @@ class ShopLoginScreen extends StatelessWidget {
                             defaultTextButton(
                                 title: "Register Now",
                                 onPressed: () {
-                                  navigateTo(context, RegisterScreen());
+                                  navigateTo(context, ShopRegisterScreen());
                                 }),
                           ],
                         )
