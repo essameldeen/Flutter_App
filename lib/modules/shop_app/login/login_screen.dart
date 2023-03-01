@@ -3,6 +3,7 @@ import 'package:app_test/modules/shop_app/login/cubit/ShopCubit.dart';
 import 'package:app_test/modules/shop_app/login/cubit/shope_login_state.dart';
 import 'package:app_test/modules/shop_app/register/register_screen.dart';
 import 'package:app_test/shared/components/components.dart';
+import 'package:app_test/shared/components/constants.dart';
 import 'package:app_test/shared/network/local%20/cach_helper.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class ShopLoginScreen extends StatelessWidget {
               if(state.loginModel?.data?.token!=null){
                 CacheHelper.saveData(key: "token", value: state.loginModel?.data?.token).then((value){
                   showToast(state.loginModel?.message,ToastStates.SUCCESS);
+                  token = state.loginModel?.data?.token;
                   navigateToAndFinish(context, ShopLayout());
                 });
 

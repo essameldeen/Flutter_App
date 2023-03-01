@@ -1,3 +1,5 @@
+import 'package:app_test/model/shop/login_model.dart';
+
 abstract class ShopHomeStates {}
 
 class ShopHomeInitialState extends ShopHomeStates {}
@@ -37,10 +39,33 @@ class ShopHomeFavouriteChangeErrorState extends ShopHomeStates {
 }
 
 class ShopHomeGetFavouriteLoadingState extends ShopHomeStates {}
+
 class ShopHomeGetFavouriteSuccessState extends ShopHomeStates {}
 
 class ShopHomeGetFavouriteErrorState extends ShopHomeStates {
   String? error;
 
   ShopHomeGetFavouriteErrorState(this.error);
+}
+
+class ShopHomeGetUserDataLoadingState extends ShopHomeStates {}
+
+class ShopHomeGetUserDataSuccessState extends ShopHomeStates {
+  final ShopLoginModel? loginModel;
+
+  ShopHomeGetUserDataSuccessState(this.loginModel);
+}
+
+class ShopHomeGetUserDataErrorState extends ShopHomeStates {
+  String? error;
+
+  ShopHomeGetUserDataErrorState(this.error);
+}
+
+class ShopHomeLogOutSuccessState extends ShopHomeStates {}
+
+class ShopHomeLogOutErrorState extends ShopHomeStates {
+  final String? error;
+
+  ShopHomeLogOutErrorState(this.error);
 }
