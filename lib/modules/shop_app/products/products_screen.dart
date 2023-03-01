@@ -1,7 +1,9 @@
+
 import 'package:app_test/layout/shop_app/cubit/shop_home_cubit.dart';
 import 'package:app_test/layout/shop_app/cubit/states.dart';
 import 'package:app_test/model/shop/categories_model.dart';
 import 'package:app_test/model/shop/home_model.dart';
+import 'package:app_test/shared/components/components.dart';
 import 'package:app_test/shared/styles/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -12,12 +14,21 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopHomeStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is ShopHomeFavouriteChangeSuccessState){
+             if(state.status==false){
+                 showToast("An Error Happen Pleas Try Again.", ToastStates.ERROR);
+             }
+          }
+
+        },
         builder: (context, state) {
           return ConditionalBuilder(
-            condition: ShopCubit.get(context).homeModel != null &&ShopCubit.get(context).categoriesHomeModel != null ,
-            builder: (context) =>
-                productsBuilder(ShopCubit.get(context).homeModel,ShopCubit.get(context).categoriesHomeModel ),
+            condition: ShopCubit.get(context).homeModel != null &&
+                ShopCubit.get(context).categoriesHomeModel != null,
+            builder: (context) => productsBuilder(
+                ShopCubit.get(context).homeModel,
+                ShopCubit.get(context).categoriesHomeModel,context),
             fallback: (context) => const Center(
               child: CircularProgressIndicator(),
             ),
@@ -25,7 +36,8 @@ class ProductsScreen extends StatelessWidget {
         });
   }
 
-  Widget productsBuilder(HomeModel? homeModel, CategoriesModel? categoriesHomeModel) {
+  Widget productsBuilder(
+      HomeModel? homeModel, CategoriesModel? categoriesHomeModel, context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
@@ -68,8 +80,8 @@ class ProductsScreen extends StatelessWidget {
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) => buildCategoryItem(
-                          categoriesHomeModel?.data?.data![index].image??"",
-                          categoriesHomeModel?.data?.data![index].name??""),
+                          categoriesHomeModel?.data?.data![index].image ?? "",
+                          categoriesHomeModel?.data?.data![index].name ?? ""),
                       separatorBuilder: (context, index) => const SizedBox(
                             width: 20,
                           ),
@@ -93,7 +105,7 @@ class ProductsScreen extends StatelessWidget {
             crossAxisCount: 2,
             childAspectRatio: 1 / 1.6,
             children: List.generate(homeModel?.data?.products.length ?? 0,
-                (index) => buildItemGrid(homeModel?.data?.products[index])),
+                (index) => buildItemGrid(homeModel?.data?.products[index],context)),
           )
         ],
       ),
@@ -122,7 +134,7 @@ class ProductsScreen extends StatelessWidget {
         ],
       );
 
-  Widget buildItemGrid(ProductModel? product) => Container(
+  Widget buildItemGrid(ProductModel? product, context) => Container(
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,11 +192,19 @@ class ProductsScreen extends StatelessWidget {
                         ),
                       const Spacer(),
                       IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.favorite_outline,
-                            size: 18.0,
-                          ))
+                        onPressed: () {
+                          ShopCubit.get(context).changeFavorites(product?.id ??0);
+                        },
+
+                        icon:  CircleAvatar(
+                        backgroundColor: ShopCubit.get(context).isFavourite(product?.id)? defaultColor:Colors.grey,
+                          radius: 15.0,
+                            child:const  Icon(
+                          Icons.favorite_outline,
+                          size: 18.0,
+                              color: Colors.white,
+                        )),
+                      )
                     ],
                   ),
                 ],
