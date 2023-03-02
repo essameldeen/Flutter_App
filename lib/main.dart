@@ -1,7 +1,6 @@
 import 'package:app_test/layout/shop_app/cubit/shop_home_cubit.dart';
-import 'package:app_test/layout/shop_app/shop_layout.dart';
-import 'package:app_test/modules/shop_app/login/login_screen.dart';
-import 'package:app_test/modules/shop_app/on_boarding/onboarding_screen.dart';
+import 'package:app_test/layout/social_app/cubit/cubit.dart';
+import 'package:app_test/layout/social_app/social_layout.dart';
 import 'package:app_test/modules/social_app/social_login/social_login_screen.dart';
 import 'package:app_test/shared/block_0bserver.dart';
 import 'package:app_test/shared/components/constants.dart';
@@ -26,15 +25,22 @@ void main() async {
 
   Widget? screen;
   bool? isDark = CacheHelper.getData("isDark");
-  bool? onBoarding = CacheHelper.getData("onBoarding");
-  String? tokenUser = CacheHelper.getData("token");
-  token = tokenUser;
-  if (tokenUser != null && onBoarding != null) {
-    screen = ShopLayout();
-  } else if (onBoarding == true) {
-    screen = ShopLoginScreen();
+  // bool? onBoarding = CacheHelper.getData("onBoarding");
+  // String? tokenUser = CacheHelper.getData("token");
+  String? uId = CacheHelper.getData("uId");
+
+  token = uId;
+  // if (tokenUser != null && onBoarding != null) {
+  //   screen = ShopLayout();
+  // } else if (onBoarding == true) {
+  //   screen = ShopLoginScreen();
+  // } else {
+  //   screen = OnBoardingScreen();
+  // }
+  if (uId != null) {
+    screen = SocialLayout();
   } else {
-    screen = OnBoardingScreen();
+    screen = SocialLoginScreen();
   }
 
   runApp(MyApp(isDark, screen));
@@ -51,12 +57,20 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => SocialCubit()..getUserData(),
+        ),
+        BlocProvider(
           create: (context) => NewsCubit()..getBusinessData(),
         ),
         BlocProvider(
             create: (context) =>
                 AppCubit()..changeThemeMode(isDarkFromSharedPref: isDark)),
-        BlocProvider(create: (context) => ShopCubit()..getHomeData()..getHomeCategoriesData()..getHomeFavoritiesData()..getUserData())
+        BlocProvider(
+            create: (context) => ShopCubit()
+              ..getHomeData()
+              ..getHomeCategoriesData()
+              ..getHomeFavoritiesData()
+              ..getUserData())
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
@@ -65,7 +79,7 @@ class MyApp extends StatelessWidget {
           theme: lightTheme,
           darkTheme: darkTheme,
           debugShowCheckedModeBanner: false,
-          home: SocialLoginScreen(),
+          home: screen,
         ),
       ),
     );

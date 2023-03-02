@@ -1,6 +1,5 @@
-import 'package:app_test/layout/shop_app/shop_layout.dart';
+import 'package:app_test/layout/social_app/social_layout.dart';
 import 'package:app_test/shared/components/components.dart';
-import 'package:app_test/shared/components/constants.dart';
 import 'package:app_test/shared/network/local%20/cach_helper.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,12 @@ class SocialLoginScreen extends StatelessWidget {
       child: BlocConsumer<SocialLoginCubit, SocialLoginStates>(
         listener: (context, state) {
           if (state is SocialLoginErrorState) {
-              showToast(state.error,ToastStates.ERROR);
+            showToast(state.error, ToastStates.ERROR);
+          }
+          if (state is SocialLoginSuccessState) {
+            CacheHelper.saveData(key: "uId", value: state.uId).then((value) {
+              navigateToAndFinish(context, SocialLayout());
+            });
           }
         },
         builder: (context, state) {
@@ -68,12 +72,12 @@ class SocialLoginScreen extends StatelessWidget {
                               login(context);
                             },
                             onEyeClick: () {
-                             SocialLoginCubit.get(context)
+                              SocialLoginCubit.get(context)
                                   .changePasswordVisibility();
                             },
                             showLock: true,
                             isPassword:
-                            SocialLoginCubit.get(context).isPasswordShow,
+                                SocialLoginCubit.get(context).isPasswordShow,
                             controller: passwordController,
                             hint: "Enter your Password",
                             label: "Password",
@@ -128,7 +132,7 @@ class SocialLoginScreen extends StatelessWidget {
 
   void login(context) {
     if (formKey.currentState?.validate() == true) {
-     SocialLoginCubit.get(context).login(
+      SocialLoginCubit.get(context).login(
           email: emailController.text, password: passwordController.text);
     }
   }
