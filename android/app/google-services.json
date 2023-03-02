@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "526368396030",
+    "project_id": "socialmedaiflutterapp",
+    "storage_bucket": "socialmedaiflutterapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526368396030:android:d592bdf83b41cd0e17cbaf",
+        "android_client_info": {
+          "package_name": "com.example.app_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526368396030-cdq79c8bc7th00t7ouspp0f3hds6mm42.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app_test",
+            "certificate_hash": "8c871c7ab67cdb42f6c28af762d6fe0137b4bb1d"
+          }
+        },
+        {
+          "client_id": "526368396030-jt9c6l3rdkajm715fj83pq0pdb9d7833.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACuHXzWyEHRHQfpMBiM43fTQ7sweOcXNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526368396030-jt9c6l3rdkajm715fj83pq0pdb9d7833.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

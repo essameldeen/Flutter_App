@@ -2,6 +2,7 @@ import 'package:app_test/layout/shop_app/cubit/shop_home_cubit.dart';
 import 'package:app_test/layout/shop_app/shop_layout.dart';
 import 'package:app_test/modules/shop_app/login/login_screen.dart';
 import 'package:app_test/modules/shop_app/on_boarding/onboarding_screen.dart';
+import 'package:app_test/modules/social_app/social_login/social_login_screen.dart';
 import 'package:app_test/shared/block_0bserver.dart';
 import 'package:app_test/shared/components/constants.dart';
 import 'package:app_test/shared/cubit/cubit.dart';
@@ -9,6 +10,7 @@ import 'package:app_test/shared/cubit/states.dart';
 import 'package:app_test/shared/network/local%20/cach_helper.dart';
 import 'package:app_test/shared/network/remote/dio_helper.dart';
 import 'package:app_test/shared/styles/themes.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,6 +21,7 @@ void main() async {
       .ensureInitialized(); // to ensure that all function finished before running
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
+  await Firebase.initializeApp();
   DioHelper.init();
 
   Widget? screen;
@@ -62,7 +65,7 @@ class MyApp extends StatelessWidget {
           theme: lightTheme,
           darkTheme: darkTheme,
           debugShowCheckedModeBanner: false,
-          home: screen,
+          home: SocialLoginScreen(),
         ),
       ),
     );
