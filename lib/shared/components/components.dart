@@ -20,7 +20,7 @@ Widget defaultButton(
         onPressed: function,
         child: Text(
           title.toUpperCase(),
-          style: const TextStyle(color: Colors.white, fontSize: 24.0),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
     );
