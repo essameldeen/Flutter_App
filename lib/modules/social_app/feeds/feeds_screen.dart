@@ -58,7 +58,7 @@ class FeedsScreen extends StatelessWidget {
   Widget buildPostItem(context) => Card(
     clipBehavior: Clip.antiAliasWithSaveLayer,
     elevation: 5.0,
-    margin: EdgeInsets.symmetric(
+    margin: const EdgeInsets.symmetric(
       horizontal: 8.0,
     ),
     child: Padding(
@@ -67,13 +67,13 @@ class FeedsScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 25.0,
                 backgroundImage: NetworkImage(
                   'https://image.freepik.com/free-photo/skeptical-woman-has-unsure-questioned-expression-points-fingers-sideways_273609-40770.jpg',
                 ),
               ),
-              SizedBox(
+            const SizedBox(
                 width: 15.0,
               ),
               Expanded(
@@ -81,7 +81,7 @@ class FeedsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: [
+                      children:const [
                         Text(
                           'Essam Mohamed',
                           style: TextStyle(
@@ -107,11 +107,11 @@ class FeedsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15.0,
               ),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.more_horiz,
                   size: 16.0,
                 ),
