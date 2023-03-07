@@ -1,5 +1,6 @@
 import 'package:app_test/layout/social_app/cubit/cubit.dart';
 import 'package:app_test/layout/social_app/cubit/states.dart';
+import 'package:app_test/modules/social_app/edit_profile/edit_profile_screen.dart';
 import 'package:app_test/shared/components/components.dart';
 import 'package:app_test/shared/styles/icon_broken.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,6 @@ class SettingScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var userModel = SocialCubit.get(context).userModel;
-        print(userModel?.image);
-        print(userModel?.email);
-        print(userModel?.bio);
         return Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -29,16 +27,14 @@ class SettingScreen extends StatelessWidget {
                       child:  Container(
                         height: 140.0,
                         width: double.infinity,
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                        decoration:  BoxDecoration(
+                            borderRadius:const  BorderRadius.only(
                               topLeft: Radius.circular(4.0),
                               topRight: Radius.circular(4.0),
                             ),
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: NetworkImage(
-                                'https://image.freepik.com/free-photo/horizontal-shot-smiling-curly-haired-woman-indicates-free-space-demonstrates-place-your-advertisement-attracts-attention-sale-wears-green-turtleneck-isolated-vibrant-pink-wall_273609-42770.jpg',
-                              ),
+                              image: NetworkImage(userModel?.cover??""),
                             )),
                       ),
                     ),
@@ -154,7 +150,9 @@ class SettingScreen extends StatelessWidget {
                       )),
                   const SizedBox(width: 10,),
                   OutlinedButton(
-                    onPressed:(){} ,
+                    onPressed:(){
+                      navigateTo(context, EditProfileScreen());
+                    } ,
                     child: const Icon(IconBroken.Edit,size: 16,),
                   )
 

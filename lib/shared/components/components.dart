@@ -1,5 +1,5 @@
 import 'package:app_test/shared/cubit/cubit.dart';
-import 'package:app_test/shared/styles/colors.dart';
+import 'package:app_test/shared/styles/icon_broken.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -287,3 +287,16 @@ Color chooseToastColor(ToastStates state){
   }
   return color;
 }
+
+AppBar defaultAppBar({
+  required BuildContext context,
+  String title="",
+  List<Widget>? actions,
+})=>AppBar(
+  titleSpacing: 0.0,
+  leading: IconButton(onPressed: (){
+    Navigator.pop(context);
+  }, icon: const Icon(IconBroken.Arrow___Left_2),),
+  title: Text(title),
+  actions: actions,
+);

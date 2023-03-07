@@ -42,7 +42,10 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
         email: email,
         phone: phone,
         bio: 'write your bio...',
-        image:"https://img.freepik.com/free-photo/moon-light-shine-through-window-into-islamic-mosque-interior_1217-2597.jpg?w=2000&t=st=1678110758~exp=1678111358~hmac=563fc9ebaa70553aecef99665436e231028ad6549c7854624d68a8cd63ef66c1",
+        image:
+            "https://img.freepik.com/free-photo/moon-light-shine-through-window-into-islamic-mosque-interior_1217-2597.jpg?w=2000&t=st=1678110758~exp=1678111358~hmac=563fc9ebaa70553aecef99665436e231028ad6549c7854624d68a8cd63ef66c1",
+        cover:
+            "https://img.freepik.com/free-photo/moon-light-shine-through-window-into-islamic-mosque-interior_1217-2597.jpg?w=2000&t=st=1678110758~exp=1678111358~hmac=563fc9ebaa70553aecef99665436e231028ad6549c7854624d68a8cd63ef66c1",
         isEmailVerified: false);
     FirebaseFirestore.instance
         .collection("users")
