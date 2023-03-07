@@ -197,8 +197,8 @@ class SocialCubit extends Cubit<SocialStates> {
     });
   }
 
-  void removePostImage(){
-    postImage =null;
+  void removePostImage() {
+    postImage = null;
     emit(SocialRemoveImagePostState());
   }
 
@@ -217,10 +217,27 @@ class SocialCubit extends Cubit<SocialStates> {
         .collection("posts")
         .add(user.toMap())
         .then((value) {
-        emit (SocialCreatePostSuccessState());
+      emit(SocialCreatePostSuccessState());
+    }).catchError((error) {
+      emit(SocialCreatePostErrorState());
+    });
+  }
+
+  List<PostModel> posts = [];
+
+  void getPosts() {
+    emit(SocialGetPostsLoadingState());
+    FirebaseFirestore.instance
+        .collection("posts")
+        .get()
+        .then((value) {
+          for (var element in value.docs) {
+            posts.add(PostModel.fromJson(element.data()));
+          }
+          emit(SocialGetPostsSuccessState());
     })
         .catchError((error) {
-      emit(SocialCreatePostErrorState());
+      emit(SocialGetPostsErrorState());
     });
   }
 }
