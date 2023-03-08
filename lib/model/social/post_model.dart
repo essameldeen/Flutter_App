@@ -6,6 +6,7 @@ class PostModel {
   String? postImage;
   String? dateTime;
 
+
   PostModel({
     required this.name,
     required this.uId,

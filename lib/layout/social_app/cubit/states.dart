@@ -48,3 +48,9 @@ class SocialRemoveImagePostState extends SocialStates {}
 class SocialGetPostsLoadingState extends SocialStates {}
 class SocialGetPostsSuccessState extends SocialStates {}
 class SocialGetPostsErrorState extends SocialStates {}
+
+
+class SocialLikePostSuccessState extends SocialStates {}
+class SocialLikePostErrorState extends SocialStates {}
+class SocialCommentPostSuccessState extends SocialStates {}
+class SocialCommentPostErrorState extends SocialStates {}

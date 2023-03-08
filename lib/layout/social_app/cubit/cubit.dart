@@ -224,20 +224,56 @@ class SocialCubit extends Cubit<SocialStates> {
   }
 
   List<PostModel> posts = [];
+  List<String> postsId = [];
+  List<int> likes = [];
+  List<int> comments = [];
 
   void getPosts() {
     emit(SocialGetPostsLoadingState());
+    FirebaseFirestore.instance.collection("posts").get().then((value) {
+      for (var element in value.docs) {
+        element.reference.collection("likes").get().then((valueLikes) {
+          element.reference.collection("comments").get().then((valueComment) {
+            posts.add(PostModel.fromJson(element.data()));
+            postsId.add(element.id);
+            likes.add(valueLikes.docs.length);
+            comments.add(valueComment.docs.length);
+          }).catchError((error) {
+            emit(SocialGetPostsErrorState());
+          });
+        }).catchError((error) {
+          emit(SocialGetPostsErrorState());
+        });
+      }
+      emit(SocialGetPostsSuccessState());
+    }).catchError((error) {
+      emit(SocialGetPostsErrorState());
+    });
+  }
+
+  void likePost(String postId) {
     FirebaseFirestore.instance
         .collection("posts")
-        .get()
-        .then((value) {
-          for (var element in value.docs) {
-            posts.add(PostModel.fromJson(element.data()));
-          }
-          emit(SocialGetPostsSuccessState());
-    })
-        .catchError((error) {
-      emit(SocialGetPostsErrorState());
+        .doc(postId)
+        .collection("likes")
+        .doc(userModel?.uId)
+        .set({'like': true}).then((value) {
+      emit(SocialLikePostSuccessState());
+    }).catchError((error) {
+      emit(SocialLikePostErrorState());
+    });
+  }
+
+  void commentPost(String postId, String comment) {
+    FirebaseFirestore.instance
+        .collection("posts")
+        .doc(postId)
+        .collection("comments")
+        .doc(userModel?.uId)
+        .set({'comment': comment}).then((value) {
+      emit(SocialCommentPostSuccessState());
+    }).catchError((error) {
+      emit(SocialCommentPostErrorState());
     });
   }
 }

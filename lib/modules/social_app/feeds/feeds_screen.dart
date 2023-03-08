@@ -4,82 +4,84 @@ import 'package:app_test/model/social/post_model.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../shared/styles/colors.dart';
 import '../../../shared/styles/icon_broken.dart';
 
 class FeedsScreen extends StatelessWidget {
+  var textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is SocialCommentPostSuccessState) {
+          textController.text = "";
+        }
+      },
       builder: (context, state) {
         return ConditionalBuilder(
-          condition:SocialCubit.get(context).posts.isNotEmpty,
-          fallback: (context) =>
-          const Center(child: CircularProgressIndicator(),),
-          builder: (context) =>
-              SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    Card(
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      elevation: 5.0,
-                      margin: const EdgeInsets.all(
-                        8.0,
+          condition: SocialCubit.get(context).posts.isNotEmpty &&
+              SocialCubit.get(context).userModel != null,
+          fallback: (context) => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          builder: (context) => SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Card(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  elevation: 5.0,
+                  margin: const EdgeInsets.all(
+                    8.0,
+                  ),
+                  child: Stack(
+                    alignment: AlignmentDirectional.bottomEnd,
+                    children: [
+                      const Image(
+                        image: NetworkImage(
+                          'https://image.freepik.com/free-photo/horizontal-shot-smiling-curly-haired-woman-indicates-free-space-demonstrates-place-your-advertisement-attracts-attention-sale-wears-green-turtleneck-isolated-vibrant-pink-wall_273609-42770.jpg',
+                        ),
+                        fit: BoxFit.cover,
+                        height: 200.0,
+                        width: double.infinity,
                       ),
-                      child: Stack(
-                        alignment: AlignmentDirectional.bottomEnd,
-                        children: [
-                          const Image(
-                            image:  NetworkImage(
-                              'https://image.freepik.com/free-photo/horizontal-shot-smiling-curly-haired-woman-indicates-free-space-demonstrates-place-your-advertisement-attracts-attention-sale-wears-green-turtleneck-isolated-vibrant-pink-wall_273609-42770.jpg',
-                            ),
-                            fit: BoxFit.cover,
-                            height: 200.0,
-                            width: double.infinity,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'communicate with friends',
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  ?.copyWith(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'communicate with friends',
+                          style:
+                              Theme.of(context).textTheme.subtitle1?.copyWith(
+                                    color: Colors.white,
+                                  ),
+                        ),
                       ),
-                    ),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => buildPostItem(
-                          SocialCubit.get(context).posts[index],
-                          context),
-                      separatorBuilder: (context, index) =>
-                      const SizedBox(
-                        height: 8.0,
-                      ),
-                      itemCount:  SocialCubit.get(context).posts.length,
-                    ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => buildPostItem(
+                      SocialCubit.get(context).posts[index], context, index),
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 8.0,
+                  ),
+                  itemCount: SocialCubit.get(context).posts.length,
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
   }
 
-  Widget buildPostItem(PostModel post ,context) =>
-      Card(
+  Widget buildPostItem(PostModel post, context, index) => Card(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         elevation: 5.0,
         margin: const EdgeInsets.symmetric(
@@ -92,11 +94,9 @@ class FeedsScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                   CircleAvatar(
+                  CircleAvatar(
                     radius: 25.0,
-                    backgroundImage: NetworkImage(
-                          post.image??""
-                    ),
+                    backgroundImage: NetworkImage(post.image ?? ""),
                   ),
                   const SizedBox(
                     width: 15.0,
@@ -106,17 +106,17 @@ class FeedsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          children:  [
+                          children: [
                             Text(
-                              post.name??"",
-                              style:const  TextStyle(
+                              post.name ?? "",
+                              style: const TextStyle(
                                 height: 1.4,
                               ),
                             ),
-                           const  SizedBox(
+                            const SizedBox(
                               width: 5.0,
                             ),
-                          const  Icon(
+                            const Icon(
                               Icons.check_circle,
                               color: defaultColor,
                               size: 16.0,
@@ -124,14 +124,10 @@ class FeedsScreen extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          post.dateTime??"",
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .caption
-                              ?.copyWith(
-                            height: 1.4,
-                          ),
+                          post.dateTime ?? "",
+                          style: Theme.of(context).textTheme.caption?.copyWith(
+                                height: 1.4,
+                              ),
                         ),
                       ],
                     ),
@@ -159,11 +155,8 @@ class FeedsScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                post.text??"",
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .subtitle1,
+                post.text ?? "",
+                style: Theme.of(context).textTheme.subtitle1,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -187,13 +180,9 @@ class FeedsScreen extends StatelessWidget {
                             child: Text(
                               '#software',
                               style:
-                              Theme
-                                  .of(context)
-                                  .textTheme
-                                  .caption
-                                  ?.copyWith(
-                                color: defaultColor,
-                              ),
+                                  Theme.of(context).textTheme.caption?.copyWith(
+                                        color: defaultColor,
+                                      ),
                             ),
                           ),
                         ),
@@ -211,13 +200,9 @@ class FeedsScreen extends StatelessWidget {
                             child: Text(
                               '#flutter',
                               style:
-                              Theme
-                                  .of(context)
-                                  .textTheme
-                                  .caption
-                                  ?.copyWith(
-                                color: defaultColor,
-                              ),
+                                  Theme.of(context).textTheme.caption?.copyWith(
+                                        color: defaultColor,
+                                      ),
                             ),
                           ),
                         ),
@@ -226,22 +211,20 @@ class FeedsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              if(post?.postImage !="")
-              Container(
-                height: 140.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    4.0,
-                  ),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      post.postImage??""
+              if (post?.postImage != "")
+                Container(
+                  height: 140.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      4.0,
                     ),
-                    fit: BoxFit.cover,
+                    image: DecorationImage(
+                      image: NetworkImage(post.postImage ?? ""),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 5.0,
@@ -256,20 +239,19 @@ class FeedsScreen extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                             const Icon(
+                              const Icon(
                                 IconBroken.Heart,
                                 size: 16.0,
                                 color: Colors.red,
                               ),
-                          const    SizedBox(
+                              const SizedBox(
                                 width: 5.0,
                               ),
                               Text(
-                                '120',
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .caption,
+                                SocialCubit.get(context)
+                                    .likes[index]
+                                    .toString(),
+                                style: Theme.of(context).textTheme.caption,
                               ),
                             ],
                           ),
@@ -291,15 +273,13 @@ class FeedsScreen extends StatelessWidget {
                                 size: 16.0,
                                 color: Colors.amber,
                               ),
-                              const  SizedBox(
+                              const SizedBox(
                                 width: 5.0,
                               ),
                               Text(
-                                '120 comment',
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .caption,
+                                '${SocialCubit.get(context)
+                                    .comments[index]} comment',
+                                style: Theme.of(context).textTheme.caption,
                               ),
                             ],
                           ),
@@ -328,21 +308,24 @@ class FeedsScreen extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 18.0,
-                            backgroundImage: NetworkImage(
-                               post.image??""
-                            ),
+                            backgroundImage: NetworkImage(post.image ?? ""),
                           ),
                           const SizedBox(
                             width: 15.0,
                           ),
-                          Text(
-                            'write a comment ...',
-                            style:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .caption
-                                ?.copyWith(),
+                          Expanded(
+                            child: TextFormField(
+                              maxLines: 1,
+                              controller: textController,
+                              onFieldSubmitted: (value) {
+                                SocialCubit.get(context).commentPost(
+                                    SocialCubit.get(context).postsId[index],
+                                    textController.text);
+                              },
+                              decoration: const InputDecoration(
+                                  hintText: "write your comment...",
+                                  border: InputBorder.none),
+                            ),
                           ),
                         ],
                       ),
@@ -352,24 +335,24 @@ class FeedsScreen extends StatelessWidget {
                   InkWell(
                     child: Row(
                       children: [
-                      const   Icon(
+                        const Icon(
                           IconBroken.Heart,
                           size: 16.0,
                           color: Colors.red,
                         ),
-                      const   SizedBox(
+                        const SizedBox(
                           width: 5.0,
                         ),
                         Text(
                           'Like',
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .caption,
+                          style: Theme.of(context).textTheme.caption,
                         ),
                       ],
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      SocialCubit.get(context)
+                          .likePost(SocialCubit.get(context).postsId[index]);
+                    },
                   ),
                 ],
               ),
