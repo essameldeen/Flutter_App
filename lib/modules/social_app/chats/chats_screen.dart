@@ -1,5 +1,7 @@
 import 'package:app_test/layout/social_app/cubit/cubit.dart';
 import 'package:app_test/layout/social_app/cubit/states.dart';
+import 'package:app_test/modules/social_app/chat_details/ChatDetailsScreen.dart';
+import 'package:app_test/shared/components/components.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +21,7 @@ class ChatsScreen extends StatelessWidget {
             fallback:(context)=>const Center(child: CircularProgressIndicator(),) ,
             builder:(context)=> ListView.separated(
                 physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) => builtUserItem(users[index]),
+                itemBuilder: (context, index) => builtUserItem(users[index],context),
                 separatorBuilder: (context, index) => Container(
                       height: 1,
                       color: Colors.grey,
@@ -29,8 +31,10 @@ class ChatsScreen extends StatelessWidget {
         });
   }
 
-  Widget builtUserItem(SocialUserModel user) => InkWell(
-        onTap: () {},
+  Widget builtUserItem(SocialUserModel user,context) => InkWell(
+        onTap: () {
+          navigateTo(context, ChatDetailsScreen(userModel: user));
+        },
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(

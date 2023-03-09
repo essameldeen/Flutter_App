@@ -22,11 +22,7 @@ class SocialGetAllUserDataErrorState extends SocialStates {
   SocialGetAllUserDataErrorState(this.error);
 }
 
-
-
 class SocialSendEmailSuccessState extends SocialStates {}
-
-
 class SocialChangeBottomNavState extends SocialStates {}
 
 class SocialUploadState extends SocialStates {}
@@ -67,3 +63,8 @@ class SocialLikePostSuccessState extends SocialStates {}
 class SocialLikePostErrorState extends SocialStates {}
 class SocialCommentPostSuccessState extends SocialStates {}
 class SocialCommentPostErrorState extends SocialStates {}
+
+class SocialSendMessageSuccessState extends SocialStates {}
+class SocialSendMessageErrorState extends SocialStates {}
+class SocialGetAllMessagesSuccessState extends SocialStates {}
+class SocialGetAllMessagesErrorState extends SocialStates {}
