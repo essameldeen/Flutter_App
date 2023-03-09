@@ -6,13 +6,26 @@ class SocialGetUserDataLoadingState extends SocialStates {}
 
 class SocialGetUserDataSuccessState extends SocialStates {}
 
-class SocialSendEmailSuccessState extends SocialStates {}
-
 class SocialGetUserDataErrorState extends SocialStates {
   final String? error;
-
   SocialGetUserDataErrorState(this.error);
 }
+
+
+
+class SocialGetAllUserDataLoadingState extends SocialStates {}
+
+class SocialGetAllUserDataSuccessState extends SocialStates {}
+
+class SocialGetAllUserDataErrorState extends SocialStates {
+  final String? error;
+  SocialGetAllUserDataErrorState(this.error);
+}
+
+
+
+class SocialSendEmailSuccessState extends SocialStates {}
+
 
 class SocialChangeBottomNavState extends SocialStates {}
 
